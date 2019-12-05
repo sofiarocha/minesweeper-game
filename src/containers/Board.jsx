@@ -116,6 +116,21 @@ class Board extends Component {
 
     // handle cell click
     handleClickedCell = value => {
+        const { gameBoard } = this.state;
+        if (value.isMine) {
+            this.setState({
+                gameOver: true
+            });
+            this.revealAllBoard();
+            console.log("GAME OVER");
+        } else if (value.neighbour === 0) {
+            this.revealCell(value);
+            this.revealEmptyCell(value, gameBoard);
+        }
+        this.revealCell(value);
+    };
+
+    revealCell = value => {
         this.setState(prevState => ({
             ...prevState,
             gameBoard: prevState.gameBoard.map((row, index) => {
@@ -135,6 +150,40 @@ class Board extends Component {
                 return row;
             })
         }));
+    };
+
+    revealAllBoard = () => {
+        this.setState(prevState => ({
+            ...prevState,
+            gameBoard: prevState.gameBoard.map(row => {
+                return row.map(cell => {
+                    return {
+                        ...cell,
+                        isClicked: true
+                    };
+                });
+            })
+        }));
+    };
+
+    revealEmptyCell = (value, gameBoard) => {
+        const cellsArray = this.getNeighboursArray(value.x, value.y, gameBoard);
+
+        cellsArray.forEach(cell => {
+            this.revealCell(cell);
+
+            if (!cell.isClicked && cell.neighbour === 0) {
+                const newBoardData = [...gameBoard];
+                newBoardData[cell.x][cell.y].isClicked = true;
+                // this.revealCell(cell);
+                // if (cell.neighbour === 0) {
+                // this.revealCell(cell);
+
+                console.log(cell);
+                this.revealEmptyCell(cell, newBoardData);
+                // }
+            }
+        });
     };
 
     renderBoard = data => {
