@@ -1,0 +1,14 @@
+.cell {
+    background-color: #5a5656;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #000;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.active {
+    background-color: #948f8f;
+}
