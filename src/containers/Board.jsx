@@ -175,13 +175,8 @@ class Board extends Component {
             if (!cell.isClicked && cell.neighbour === 0) {
                 const newBoardData = [...gameBoard];
                 newBoardData[cell.x][cell.y].isClicked = true;
-                // this.revealCell(cell);
-                // if (cell.neighbour === 0) {
-                // this.revealCell(cell);
 
-                console.log(cell);
                 this.revealEmptyCell(cell, newBoardData);
-                // }
             }
         });
     };
