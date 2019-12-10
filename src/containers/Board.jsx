@@ -9,7 +9,8 @@ class Board extends Component {
             height: 8,
             mines: 10,
             gameOver: false,
-            gameBoard: []
+            gameBoard: [],
+            minesLeft: 10
         };
     }
 
@@ -24,10 +25,6 @@ class Board extends Component {
         let boardData = this.createEmptyBoard(width, height);
         boardData = this.populateMines(width, height, mines, boardData);
         boardData = this.countNeighbours(width, height, boardData);
-        // console.log(
-        //     boardData.map(arr => arr.filter(data => data.isMine === true))
-        // );
-        console.log(boardData);
         return boardData;
     };
 
@@ -42,7 +39,8 @@ class Board extends Component {
                     y: j,
                     isMine: false,
                     isClicked: false,
-                    neighbour: 0
+                    neighbour: 0,
+                    isFlag: false
                 });
             }
         }
@@ -181,6 +179,31 @@ class Board extends Component {
         });
     };
 
+    // handle flag click
+    handleClickFlag = (e, value) => {
+        e.preventDefault();
+        this.setState(prevState => ({
+            ...prevState,
+            gameBoard: prevState.gameBoard.map((row, index) => {
+                if (index === value.x) {
+                    return prevState.gameBoard[value.x].map(
+                        (cell, indexCell) => {
+                            if (indexCell === value.y) {
+                                return {
+                                    ...cell,
+                                    isFlag: true
+                                };
+                            }
+                            return cell;
+                        }
+                    );
+                }
+                return row;
+            }),
+            minesLeft: prevState.minesLeft - 1
+        }));
+    };
+
     renderBoard = data => {
         return data.map((datarow, index) => {
             return (
@@ -191,6 +214,7 @@ class Board extends Component {
                                 value={item}
                                 key={`${item.x}${item.y}`}
                                 onClickCell={this.handleClickedCell}
+                                onClickFlag={this.handleClickFlag}
                             />
                         );
                     })}
