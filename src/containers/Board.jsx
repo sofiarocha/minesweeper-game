@@ -168,13 +168,13 @@ class Board extends Component {
         const cellsArray = this.getNeighboursArray(value.x, value.y, gameBoard);
 
         cellsArray.forEach(cell => {
-            this.revealCell(cell);
-
-            if (!cell.isClicked && cell.neighbour === 0) {
+            if (!cell.isFlag && !cell.isClicked) {
                 const newBoardData = [...gameBoard];
                 newBoardData[cell.x][cell.y].isClicked = true;
-
-                this.revealEmptyCell(cell, newBoardData);
+                if (cell.neighbour === 0) {
+                    this.revealEmptyCell(cell, newBoardData);
+                }
+                this.revealCell(cell);
             }
         });
     };
