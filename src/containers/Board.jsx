@@ -191,7 +191,7 @@ class Board extends Component {
                             if (indexCell === value.y) {
                                 return {
                                     ...cell,
-                                    isFlag: true
+                                    isFlag: !cell.isFlag
                                 };
                             }
                             return cell;

@@ -2,14 +2,13 @@ import React from "react";
 
 const Cell = ({ value, onClickCell, onClickFlag }) => {
     const displayCellValue = () => {
-        if (value.isFlag && !value.isClicked) {
-            return (
+        if (!value.isClicked) {
+            return value.isFlag ? (
                 <span role="img" aria-labelledby="peanut">
                     🥜
                 </span>
-            );
+            ) : null;
         }
-        if (!value.isClicked) return null;
         if (value.isMine) {
             return (
                 <span role="img" aria-labelledby="beer">
